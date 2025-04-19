@@ -12,4 +12,5 @@ public interface UserService {
     UserDto updateUserById(Long userId, User user);
     List<UserDto> getAllUser();
     void deleetUserById(Long UserId);
+    User saveOrUpdateUser(User userDto);
 }

@@ -52,4 +52,11 @@ public class UserController {
         userService.deleetUserById(userId);
         return "user deleted successfully";
     }
+
+    // Create or update user
+    @PostMapping("/save")
+    public ResponseEntity<User> saveOrUpdateUser(@RequestBody User userDto) {
+        User savedUser = userService.saveOrUpdateUser(userDto);
+        return ResponseEntity.ok(savedUser);
+    }
 }

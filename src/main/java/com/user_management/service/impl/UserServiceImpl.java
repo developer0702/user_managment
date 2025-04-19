@@ -2,6 +2,7 @@ package com.user_management.service.impl;
 
 import com.user_management.dtos.UserDto;
 import com.user_management.entity.User;
+import com.user_management.exceptions.model.ResourceNotFoundException;
 import com.user_management.repository.UserRepository;
 import com.user_management.service.UserService;
 import lombok.AllArgsConstructor;
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> existingUserOptional = userRepository.findById(userId);
 
         if (!existingUserOptional.isPresent()) {
-            throw new RuntimeException("User not found with id: " + userId); // You can use custom exceptions too
+            throw new ResourceNotFoundException("UserId is ","for this Id",userId); // You can use custom exceptions too
         }
 
         User existingUser = existingUserOptional.get();
@@ -77,4 +78,22 @@ public class UserServiceImpl implements UserService {
     public void deleetUserById(Long userId) {
         userRepository.deleteById(userId);
     }
+
+    @Override
+    public User saveOrUpdateUser(User user) {
+        if (user.getId() != null && userRepository.existsById(user.getId())) {
+            // Updating existing user
+            User existingUser = userRepository.findById(user.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "ID", user.getId()));
+            existingUser.setName(user.getName());
+            existingUser.setMobile(user.getMobile());
+            existingUser.setEmail(user.getEmail());
+
+            return userRepository.save(existingUser);
+        } else {
+            // Creating new user
+            return userRepository.save(user);
+        }
+    }
+
 }
