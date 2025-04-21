@@ -5,8 +5,6 @@ import com.user_management.entity.User;
 import com.user_management.exceptions.model.ResourceNotFoundException;
 import com.user_management.repository.UserRepository;
 import com.user_management.service.UserService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +47,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> existingUserOptional = userRepository.findById(userId);
 
         if (!existingUserOptional.isPresent()) {
-            throw new ResourceNotFoundException("UserId is ","for this Id",userId); // You can use custom exceptions too
+            throw new ResourceNotFoundException("UserId is ", "for this Id", userId); // You can use custom exceptions too
         }
 
         User existingUser = existingUserOptional.get();
